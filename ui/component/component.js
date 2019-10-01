@@ -20,7 +20,6 @@ const service = Ember.inject.service;
 /*!!!!!!!!!!!GLOBAL CONST END!!!!!!!!!!!*/
 
 
-
 /*!!!!!!!!!!!DO NOT CHANGE START!!!!!!!!!!!*/
 export default Ember.Component.extend(NodeDriver, {
   driverName: '%%DRIVERNAME%%',
@@ -84,43 +83,51 @@ export default Ember.Component.extend(NodeDriver, {
     getData() {
       this.set('gettingData', true);
       let that = this;
-      Promise.all([this.apiRequest('/v1/locations'), this.apiRequest('/v1/images'), this.apiRequest('/v1/server_types'), this.apiRequest('/v1/networks')]).then(function (responses) {
+      Promise.all([this.apiRequest('/v3/auth/tokens')]).then(function (responses) {
         that.setProperties({
           errors: [],
           needAPIToken: false,
           gettingData: false,
-          regionChoices: responses[0].locations,
-          imageChoices: responses[1].images
-            .map(image => ({
-              ...image,
-              id: image.id.toString()
-            })),
-          sizeChoices: responses[2].server_types,
-          networkChoices: responses[3].networks.map(network => ({
-            ...network,
-            id: network.id.toString()
-          }))
         });
       }).catch(function (err) {
-        err.then(function (msg) {
+        console.error(err)
           that.setProperties({
-            errors: ['Error received from Hetzner Cloud: ' + msg.error.message],
+            errors: ['Error received from ols Cloud: '],
             gettingData: false
           })
-        })
       })
-    },
-    modifyNetworks: function (select) {
-      let options = [...select.target.options].filter(o => o.selected).map(o => o.value)
-      this.set('model.%%DRIVERNAME%%Config.networks', options);
     },
   },
   apiRequest(path) {
-    return fetch('https://api.hetzner.cloud' + path, {
+    return fetch('https://ENDPOINT:5000' + path, {
+      method: "POST",
+      mode: 'cors',
       headers: {
-        'Authorization': 'Bearer ' + this.get('model.%%DRIVERNAME%%Config.apiToken'),
+        // 'Content-Type': 'application/json',
+        // 'Access-Control-Allow-Origin': '*',
+
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Methods': 'POST',
+        Origin: '*'
       },
-    }).then(res => res.ok ? res.json() : Promise.reject(res.json()));
+      body: JSON.stringify({
+        "auth": {
+          "identity": {
+            "methods": ["password"],
+            "password": {
+              "user": {
+                "name": "mail",
+                "domain": { "id": "default" },
+                "password": "%%%%%"
+              }
+            }
+          }
+        }
+      })
+    }).then(res => {
+      console.log(res)
+    });
   }
   // Any computed properties or custom logic can go here
 });

@@ -1,22 +1,22 @@
 {
-  "name": "ui-driver-hetzner",
+  "name": "ui-driver-ols",
   "version": "0.1.0",
-  "description": "Rancher UI driver for the Hetzner Cloud docker-machine driver",
+  "description": "Rancher UI driver for the ols Cloud docker-machine driver",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mxschmitt/ui-driver-hetzner.git"
+    "url": "git+https://github.com/gotwasin/ols-node-driver.git"
   },
-  "author": "Max Schmitt",
+  "author": "wasin",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/mxschmitt/ui-driver-hetzner/issues"
+    "url": "https://github.com/gotwasin/ols-node-driver/issues"
   },
   "scripts": {
     "start": "gulp server",
     "clean": "gulp clean",
     "build": "gulp build"
   },
-  "homepage": "https://github.com/mxschmitt/ui-driver-hetzner#readme",
+  "homepage": "https://github.com/gotwasin/ols-node-driver#readme",
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.5.5",
@@ -34,5 +34,8 @@
     "jshint": "2.10.2",
     "replace-string": "^3.0.0",
     "yargs": "14.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
   }
 }

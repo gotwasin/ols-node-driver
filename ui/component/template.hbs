@@ -1,5 +1,5 @@
 <section class="horizontal-form">
-  {{!-- {{#if needAPIToken}}
+  {{#if needAPIToken}}
   <form>
     <div class="over-hr r-mb20">
       <span>Account Access</span>
@@ -12,7 +12,7 @@
         <label class="form-control-static">Password</label>
       </div>
       <div class="col-md-10">
-        {{input type="password" value=model.hetznerConfig.apiToken classNames="form-control" placeholder="Your Hetzner Cloud API Token"}}
+        {{input type="password" value=model.olsConfig.password classNames="form-control" placeholder="Your ols Cloud API Token"}}
       </div>
     </div>
     {{top-errors errors=errors}}
@@ -21,12 +21,12 @@
       <button class="btn bg-primary btn-disabled">
         <i class="icon icon-spinner icon-spin"></i> {{t 'generic.loading'}}</button>
       {{else}}
-      <button {{action "getData" }} class="btn bg-primary" disabled={{not model.hetznerConfig.apiToken}}>Configure Server</button>
+      <button {{action "getData" }} class="btn bg-primary" disabled={{not model.olsConfig.password}}>Configure Server</button>
       {{/if}}
       <button {{action "cancel"}} class="btn bg-transparent">{{t 'generic.cancel'}}</button>
     </div>
   </form>
-  {{else}} --}}
+  {{else}}
   <div class="container-fluid">
     {{!-- This partial contains the quantity, name, and description fields --}}
     <div class="over-hr">
@@ -40,9 +40,9 @@
         <label class="form-control-static">Region</label>
       </div>
       <div class="col-md-10">
-        <select class="form-control" onchange={{action (mut model.hetznerConfig.serverLocation) value="target.value" }}>
+        <select class="form-control" onchange={{action (mut model.olsConfig.serverLocation) value="target.value" }}>
           {{#each regionChoices as |choice|}}
-            <option value={{choice.name}} selected={{eq model.hetznerConfig.serverLocation choice.name}}>{{choice.city}}</option>
+            <option value={{choice.name}} selected={{eq model.olsConfig.serverLocation choice.name}}>{{choice.city}}</option>
           {{/each}}
         </select>
       </div>
@@ -52,9 +52,9 @@
         <label class="form-control-static">Image</label>
       </div>
       <div class="col-md-4">
-        <select class="form-control" onchange={{action (mut model.hetznerConfig.imageId) value="target.value" }}>
+        <select class="form-control" onchange={{action (mut model.olsConfig.imageId) value="target.value" }}>
           {{#each imageChoices as |choice|}}
-            <option value={{choice.id}} selected={{eq model.hetznerConfig.imageId choice.id}}>{{choice.description}}</option>
+            <option value={{choice.id}} selected={{eq model.olsConfig.imageId choice.id}}>{{choice.description}}</option>
           {{/each}}
         </select>
       </div>
@@ -62,9 +62,9 @@
         <label class="form-control-static">Size</label>
       </div>
       <div class="col-md-4">
-        <select class="form-control" onchange={{action (mut model.hetznerConfig.serverType) value="target.value" }}>
+        <select class="form-control" onchange={{action (mut model.olsConfig.serverType) value="target.value" }}>
           {{#each sizeChoices as |choice|}}
-            <option value={{choice.name}} selected={{eq model.hetznerConfig.serverType choice.name}}>{{choice.description}} - {{choice.memory}}GB Memory - {{choice.disk}}GB Disk space</option>
+            <option value={{choice.name}} selected={{eq model.olsConfig.serverType choice.name}}>{{choice.description}} - {{choice.memory}}GB Memory - {{choice.disk}}GB Disk space</option>
           {{/each}}
         </select>
       </div>
@@ -76,15 +76,15 @@
         </label>
       </div>
       <div class="col-md-10">
-        <textarea value={{model.hetznerConfig.userData}} onchange={{action (mut model.hetznerConfig.userData) value="target.value" }} rows="3" style="width: 100%; resize: vertical"></textarea>
+        <textarea value={{model.olsConfig.userData}} onchange={{action (mut model.olsConfig.userData) value="target.value" }} rows="3" style="width: 100%; resize: vertical"></textarea>
       </div>
       <div class="col-md-2">
-        <label class="form-control-static">Networks (Beta, optional. You have to create these Networks in the <a href="https://console.hetzner.cloud" target="_blank">Hetzner Cloud Console</a>)</label>
+        <label class="form-control-static">Networks (Beta, optional. You have to create these Networks in the <a href="https://console.ols.cloud" target="_blank">ols Cloud Console</a>)</label>
       </div>
       <div class="col-md-4">
         <select class="form-control" onchange={{action 'modifyNetworks' }} multiple="true">
           {{#each networkChoices as |network|}}
-          <option value={{network.id}} selected={{array-includes model.hetznerConfig.networks network.id}}>{{network.name}} ({{network.ip_range}})</option>
+          <option value={{network.id}} selected={{array-includes model.olsConfig.networks network.id}}>{{network.name}} ({{network.ip_range}})</option>
           {{/each}}
         </select>
       </div>
